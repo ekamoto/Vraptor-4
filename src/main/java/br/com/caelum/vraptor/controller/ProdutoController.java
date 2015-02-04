@@ -20,16 +20,18 @@ public class ProdutoController {
 
 	
 	private final Result result;
+	private final ProdutoDao dao;
 	
 	@Inject
-	public ProdutoController(Result result) {
+	public ProdutoController(Result result, ProdutoDao dao) {
 		
 		this.result = result;
+		this.dao = dao;
 	}
 	
 	public ProdutoController() {
 		
-		this(null);
+		this(null, null);
 	}
 
 	@Path("/")
@@ -44,24 +46,18 @@ public class ProdutoController {
 	
 	@Get
 	public void lista() {
-		EntityManager em = JPAUtil.criaEntityManager();
-		ProdutoDao dao = new ProdutoDao(em);
 		
 		result.include("produtoList", dao.lista());
 	}
 
 	@Get
 	public void listaXML() {
-		EntityManager em = JPAUtil.criaEntityManager();
-		ProdutoDao dao = new ProdutoDao(em);
 		
 		result.use(Results.xml()).from(dao.lista()).serialize();
 	}
 	
 	@Get
 	public void listaJSON() {
-		EntityManager em = JPAUtil.criaEntityManager();
-		ProdutoDao dao = new ProdutoDao(em);
 		
 		result.use(Results.json()).from(dao.lista()).serialize();
 	}
@@ -73,11 +69,15 @@ public class ProdutoController {
 	
 	@Post
 	public void adiciona(Produto produto) {
-		EntityManager em =  JPAUtil.criaEntityManager();
-		ProdutoDao produtoDao = new ProdutoDao(em);
-		em.getTransaction().begin();
-		produtoDao.adiciona(produto);
-		em.getTransaction().commit();
+		
+//		EntityManager em =  JPAUtil.criaEntityManager();
+//		ProdutoDao produtoDao = new ProdutoDao(em);
+//		
+//		em.getTransaction().begin();
+//		produtoDao.adiciona(produto);
+//		em.getTransaction().commit();
+		
+		dao.adiciona(produto);
 		
 		result.include("mensagem", "Produto adicionado com sucesso!");
 		// result.forwardTo(this).lista(); // não muda a url, fica adicionando novo produto
@@ -86,11 +86,8 @@ public class ProdutoController {
 	
 	@Get
 	public void remove(Produto produto){
-	    EntityManager em =  JPAUtil.criaEntityManager();
-		ProdutoDao produtoDao = new ProdutoDao(em);
-	    em.getTransaction().begin();
-	    produtoDao.remove(produto);
-	    em.getTransaction().commit();
+	    
+	    dao.remove(produto);
 	    result.include("mensagem", "Produto deletado com sucesso!");
 		// result.forwardTo(this).lista(); // não muda a url, fica adicionando novo produto
 		result.redirectTo(this).lista();
