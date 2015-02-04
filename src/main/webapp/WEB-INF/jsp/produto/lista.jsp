@@ -12,6 +12,14 @@
 	<a href="<c:url value='/produto/formulario'/>">
 	    Adicionar mais produtos!
 	</a>
+	</br>
+	<a href="<c:url value='/produto/listaXML'/>">
+	    Listar em XML!
+	</a>
+	</br>
+	<a href="<c:url value='/produto/listaJSON'/>">
+	    Listar em JSON!
+	</a>
 	<h1>Listagem de produtos</h1>
 	<table class="table table-stripped table-hover table-bordered">
 		<thead>
@@ -35,5 +43,6 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	${mensagem}
 </body>
 </html>
