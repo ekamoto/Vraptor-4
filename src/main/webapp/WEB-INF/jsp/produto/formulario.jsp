@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="../base.css">
 </head>
 <body>
-	<form action="<c:url value='/produto/adiciona'/>" >
+	<form action="<c:url value='/produto/adiciona'/>" method="post">
 		Nome:<input type="text" name="produto.nome"  class="form-control"/>
 		Valor:<input type="text" name="produto.valor"  class="form-control"/>
 		Quantidade:<input type="text" name="produto.quantidade"  class="form-control"/>
