@@ -1,9 +1,7 @@
 package br.com.caelum.vraptor.controller;
 
-import java.util.List;
-
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import javax.validation.Valid;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -12,7 +10,9 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.dao.ProdutoDao;
 import br.com.caelum.vraptor.model.Produto;
-import br.com.caelum.vraptor.util.JPAUtil;
+import br.com.caelum.vraptor.validator.I18nMessage;
+import br.com.caelum.vraptor.validator.SimpleMessage;
+import br.com.caelum.vraptor.validator.Validator;
 import br.com.caelum.vraptor.view.Results;
 
 @Controller
@@ -21,17 +21,19 @@ public class ProdutoController {
 	
 	private final Result result;
 	private final ProdutoDao dao;
+	private final Validator validator;
 	
 	@Inject
-	public ProdutoController(Result result, ProdutoDao dao) {
+	public ProdutoController(Result result, ProdutoDao dao, Validator validator) {
 		
 		this.result = result;
 		this.dao = dao;
+		this.validator = validator;
 	}
 	
 	public ProdutoController() {
 		
-		this(null, null);
+		this(null, null, null);
 	}
 
 	@Path("/")
@@ -68,7 +70,7 @@ public class ProdutoController {
 	}
 	
 	@Post
-	public void adiciona(Produto produto) {
+	public void adiciona(@Valid Produto produto) {
 		
 //		EntityManager em =  JPAUtil.criaEntityManager();
 //		ProdutoDao produtoDao = new ProdutoDao(em);
@@ -76,6 +78,11 @@ public class ProdutoController {
 //		em.getTransaction().begin();
 //		produtoDao.adiciona(produto);
 //		em.getTransaction().commit();
+
+// Foi substituido por @Valid
+//		validator.check(produto.getQuantidade() > 0, new I18nMessage("produto.quantidade", "quantidade.negativa"));
+		
+		validator.onErrorForwardTo(this).formulario();
 		
 		dao.adiciona(produto);
 		

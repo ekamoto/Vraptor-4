@@ -17,5 +17,8 @@
 		Quantidade:<input type="text" name="produto.quantidade"  class="form-control"/>
 		<input type="submit" value="cadastrar"  class="btn btn-primary"/>
 	</form>
+	<c:forEach items="${errors}" var="erro">
+		${erro.category} - ${erro.message}<br/>
+	</c:forEach>
 </body>
 </html>
