@@ -20,7 +20,7 @@
 	<a href="<c:url value='/produto/listaJSON'/>">
 	    Listar em JSON!
 	</a>
-	<h1>Listagem de produtos</h1>
+	<h1>Listagem de produtos do ${usuarioLogado.usuario.nome}</h1>
 	<table class="table table-stripped table-hover table-bordered">
 		<thead>
 			<tr>
