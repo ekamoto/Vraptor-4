@@ -1,3 +1,4 @@
+/* Foi comentado porque está utilizando o plugin vraptor-jpa
 package br.com.caelum.vraptor.interceptor;
 
 import javax.inject.Inject;
@@ -22,3 +23,4 @@ public class ControleDeTransacaoInterceptor {
 		em.getTransaction().commit();
 	}
 }
+*/
